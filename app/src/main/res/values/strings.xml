@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">ShoppingList</string>
+
+    <string name="settings">Settings</string>
+    <string name="notes">Notes</string>
+    <string name="shop">Shop</string>
+    <string name="newitem">New</string>
+    <string name="file_not_found">File not found</string>
 </resources>
