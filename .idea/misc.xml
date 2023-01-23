@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidPRG/ShoppingList/app/src/main/res/drawable/ic_settings.xml" value="0.1545" />
+        <entry key="..\:/AndroidPRG/ShoppingList/app/src/main/res/drawable/ic_shop.xml" value="0.1545" />
         <entry key="..\:/AndroidPRG/ShoppingList/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/AndroidPRG/ShoppingList/app/src/main/res/menu/bottom_menu.xml" value="0.2829059829059829" />
       </map>
