@@ -1,7 +1,8 @@
-package ru.worklight64.shoppinglist
+package ru.worklight64.shoppinglist.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import ru.worklight64.shoppinglist.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
