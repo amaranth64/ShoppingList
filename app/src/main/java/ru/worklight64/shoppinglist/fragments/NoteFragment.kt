@@ -4,14 +4,24 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
+import ru.worklight64.shoppinglist.activities.MainApp
 import ru.worklight64.shoppinglist.databinding.FragmentNoteBinding
+import ru.worklight64.shoppinglist.db.MainViewModel
 
 class NoteFragment : BaseFragment() {
 
     private lateinit var fragForm: FragmentNoteBinding
+    private val mainViewModel: MainViewModel by activityViewModels{
+        MainViewModel.MainViewModelFactory((context?.applicationContext as MainApp).database)
+    }
 
     override fun onClickNew() {
 
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(
