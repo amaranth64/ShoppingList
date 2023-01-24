@@ -7,6 +7,12 @@
     <string name="shop">Shop</string>
     <string name="newitem">New</string>
     <string name="file_not_found">File not found</string>
+
+    <string name="edTitle_hint">Title</string>
+    <string name="edDescription_hint">Description</string>
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="save">Save</string>
 </resources>

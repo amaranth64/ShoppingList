@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this, this.resources.getString(R.string.shop), Toast.LENGTH_LONG).show()
                 }
                 R.id.new_item->{
-                    Toast.makeText(this, this.resources.getString(R.string.newitem), Toast.LENGTH_LONG).show()
+                    FragmentManager.currentFragment?.onClickNew()
                 }
             }
             true
