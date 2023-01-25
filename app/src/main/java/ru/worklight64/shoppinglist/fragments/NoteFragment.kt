@@ -6,8 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 
@@ -20,7 +18,7 @@ import ru.worklight64.shoppinglist.db.MainViewModel
 import ru.worklight64.shoppinglist.db.NodeAdapter
 import ru.worklight64.shoppinglist.entities.NoteItem
 
-class NoteFragment : BaseFragment(), NodeAdapter.DeleteListener {
+class NoteFragment : BaseFragment(), NodeAdapter.NoteItemListener {
 
     private lateinit var fragForm: FragmentNoteBinding
     private lateinit var editLauncher: ActivityResultLauncher<Intent>
@@ -71,7 +69,15 @@ class NoteFragment : BaseFragment(), NodeAdapter.DeleteListener {
             ActivityResultContracts.StartActivityForResult()
         ){
             if (it.resultCode == Activity.RESULT_OK){
-                mainViewModel.insertData(it.data?.getSerializableExtra(NEW_NOTE_KEY) as NoteItem)
+                val editState =it.data?.getStringExtra(EDIT_STATE_KEY)
+                if (editState == "update"){
+                    mainViewModel.updateData(it.data?.getSerializableExtra(NEW_NOTE_KEY) as NoteItem)
+                } else {
+                    mainViewModel.insertData(it.data?.getSerializableExtra(NEW_NOTE_KEY) as NoteItem)
+                }
+
+
+
             }
         }
     }
@@ -80,11 +86,18 @@ class NoteFragment : BaseFragment(), NodeAdapter.DeleteListener {
 
     companion object {
         const val NEW_NOTE_KEY = "title_key"
+        const val EDIT_STATE_KEY = "edit_state_key"
         @JvmStatic
         fun newInstance() = NoteFragment()
     }
 
     override fun deleteItem(id: Int) {
         mainViewModel.deleteData(id)
+    }
+
+    override fun onClickItem(note: NoteItem) {
+        editLauncher.launch(Intent(activity, NewNoteActivity::class.java).apply {
+            putExtra(NEW_NOTE_KEY, note)
+        })
     }
 }

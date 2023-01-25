@@ -14,11 +14,13 @@ import java.util.*
 
 class NewNoteActivity : AppCompatActivity() {
     private lateinit var form: ActivityNewNoteBinding
+    private var note: NoteItem? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         form = ActivityNewNoteBinding.inflate(layoutInflater)
         setContentView(form.root)
         actionBarSettings()
+        getNoteItem()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -35,15 +37,44 @@ class NewNoteActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    private fun getNoteItem() = with(form){
+        val sNote = intent.getSerializableExtra(NoteFragment.NEW_NOTE_KEY)
+        if (sNote != null){
+            note = sNote as NoteItem
+        }
+        if (note != null) {
+            edTitle.setText(note?.title)
+            edDescription.setText(note?.content)
+        }
+    }
+
     private fun setMainResult(){
+        var editSate = "new"
+        var tempNote: NoteItem?
+        if (note == null) {
+            tempNote = createNote()
+        } else {
+            tempNote = updateNote()
+            editSate = "update"
+        }
+
         val i = Intent().apply {
-            putExtra(NoteFragment.NEW_NOTE_KEY, getNewNote())
+            putExtra(NoteFragment.EDIT_STATE_KEY, editSate)
+            putExtra(NoteFragment.NEW_NOTE_KEY, tempNote)
+
         }
         setResult(RESULT_OK, i)
         finish()
     }
 
-    private fun getNewNote(): NoteItem{
+    private fun updateNote(): NoteItem? {
+        return note?.copy(
+            title = form.edTitle.text.toString(),
+            content = form.edDescription.text.toString()
+        )
+    }
+
+    private fun createNote(): NoteItem{
         return NoteItem(
             null,
             form.edTitle.text.toString(),
