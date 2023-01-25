@@ -7,7 +7,10 @@ import android.view.Menu
 import android.view.MenuItem
 import ru.worklight64.shoppinglist.R
 import ru.worklight64.shoppinglist.databinding.ActivityNewNoteBinding
+import ru.worklight64.shoppinglist.entities.NoteItem
 import ru.worklight64.shoppinglist.fragments.NoteFragment
+import java.text.SimpleDateFormat
+import java.util.*
 
 class NewNoteActivity : AppCompatActivity() {
     private lateinit var form: ActivityNewNoteBinding
@@ -34,13 +37,26 @@ class NewNoteActivity : AppCompatActivity() {
 
     private fun setMainResult(){
         val i = Intent().apply {
-            putExtra(NoteFragment.TITLE_KEY, form.edTitle.text.toString())
-            putExtra(NoteFragment.DESC_KEY, form.edDescription.text.toString())
+            putExtra(NoteFragment.NEW_NOTE_KEY, getNewNote())
         }
         setResult(RESULT_OK, i)
         finish()
     }
 
+    private fun getNewNote(): NoteItem{
+        return NoteItem(
+            null,
+            form.edTitle.text.toString(),
+            form.edDescription.text.toString(),
+            getData(),
+            ""
+        )
+    }
+
+    private fun getData():String{
+        val formatter = SimpleDateFormat("HH:mm:ss - dd/MM/yy", Locale.getDefault())
+        return formatter.format(Calendar.getInstance().time)
+    }
     private fun actionBarSettings(){
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
