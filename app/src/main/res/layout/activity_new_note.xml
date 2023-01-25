@@ -43,7 +43,7 @@
  />
 
             <EditText
-                android:id="@+id/editTextTextPersonName2"
+                android:id="@+id/edDescription"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:ems="10"
