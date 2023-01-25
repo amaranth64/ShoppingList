@@ -20,7 +20,7 @@ import ru.worklight64.shoppinglist.db.MainViewModel
 import ru.worklight64.shoppinglist.db.NodeAdapter
 import ru.worklight64.shoppinglist.entities.NoteItem
 
-class NoteFragment : BaseFragment() {
+class NoteFragment : BaseFragment(), NodeAdapter.DeleteListener {
 
     private lateinit var fragForm: FragmentNoteBinding
     private lateinit var editLauncher: ActivityResultLauncher<Intent>
@@ -55,7 +55,7 @@ class NoteFragment : BaseFragment() {
     }
     private fun initRcView() = with(fragForm){
         rcViewNote.layoutManager = LinearLayoutManager(activity)
-        adapter = NodeAdapter()
+        adapter = NodeAdapter(this@NoteFragment)
         rcViewNote.adapter = adapter
 
     }
@@ -82,5 +82,9 @@ class NoteFragment : BaseFragment() {
         const val NEW_NOTE_KEY = "title_key"
         @JvmStatic
         fun newInstance() = NoteFragment()
+    }
+
+    override fun deleteItem(id: Int) {
+        mainViewModel.deleteData(id)
     }
 }

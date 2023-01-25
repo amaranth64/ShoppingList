@@ -1,6 +1,7 @@
 package ru.worklight64.shoppinglist.db
 
 import android.view.LayoutInflater
+import android.view.OnReceiveContentListener
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -11,22 +12,26 @@ import ru.worklight64.shoppinglist.R
 import ru.worklight64.shoppinglist.databinding.NoteListItemBinding
 import ru.worklight64.shoppinglist.entities.NoteItem
 
-class NodeAdapter: ListAdapter<NoteItem, NodeAdapter.ItemHolder>(ItemComparator()) {
+class NodeAdapter(private var listener: DeleteListener): ListAdapter<NoteItem, NodeAdapter.ItemHolder>(ItemComparator()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
         return ItemHolder.create(parent)
     }
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
-        holder.setData(getItem(position))
+        holder.setData(getItem(position), listener)
     }
 
     class ItemHolder(view:View):RecyclerView.ViewHolder(view){
         private val itemForm = NoteListItemBinding.bind(view)
-        fun setData(note: NoteItem)= with(itemForm){
+        fun setData(note: NoteItem, listener: DeleteListener)= with(itemForm){
             tvTitle.text = note.title
             tvDescription.text = note.content
             tvTime.text = note.time
+
+            imDelete.setOnClickListener {
+                listener.deleteItem(note.id!!)
+            }
         }
 
         companion object{
@@ -46,6 +51,10 @@ class NodeAdapter: ListAdapter<NoteItem, NodeAdapter.ItemHolder>(ItemComparator(
             return oldItem == newItem
         }
 
+    }
+
+    interface DeleteListener{
+        fun deleteItem(id: Int)
     }
 
 }
