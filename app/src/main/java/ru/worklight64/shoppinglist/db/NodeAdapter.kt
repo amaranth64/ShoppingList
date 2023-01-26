@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.worklight64.shoppinglist.R
 import ru.worklight64.shoppinglist.databinding.NoteListItemBinding
 import ru.worklight64.shoppinglist.entities.NoteItem
+import ru.worklight64.shoppinglist.utils.HtmlManager
 
 class NodeAdapter(private var listener: NoteItemListener): ListAdapter<NoteItem, NodeAdapter.ItemHolder>(ItemComparator()) {
 
@@ -25,7 +26,7 @@ class NodeAdapter(private var listener: NoteItemListener): ListAdapter<NoteItem,
         private val itemForm = NoteListItemBinding.bind(view)
         fun setData(note: NoteItem, listener: NoteItemListener)= with(itemForm){
             tvTitle.text = note.title
-            tvDescription.text = note.content
+            tvDescription.text = HtmlManager.getFromHtml(note.content).trim()
             tvTime.text = note.time
 
             itemView.setOnClickListener {

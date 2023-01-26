@@ -14,6 +14,7 @@ import ru.worklight64.shoppinglist.R
 import ru.worklight64.shoppinglist.databinding.ActivityNewNoteBinding
 import ru.worklight64.shoppinglist.entities.NoteItem
 import ru.worklight64.shoppinglist.fragments.NoteFragment
+import ru.worklight64.shoppinglist.utils.HtmlManager
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -68,7 +69,7 @@ class NewNoteActivity : AppCompatActivity() {
         }
         if (note != null) {
             edTitle.setText(note?.title)
-            edDescription.setText(note?.content)
+            edDescription.setText(HtmlManager.getFromHtml(note?.content!!).trim())
         }
     }
 
@@ -94,7 +95,7 @@ class NewNoteActivity : AppCompatActivity() {
     private fun updateNote(): NoteItem? {
         return note?.copy(
             title = form.edTitle.text.toString(),
-            content = form.edDescription.text.toString()
+            content = HtmlManager.toHtml(form.edDescription.text)
         )
     }
 
@@ -102,7 +103,7 @@ class NewNoteActivity : AppCompatActivity() {
         return NoteItem(
             null,
             form.edTitle.text.toString(),
-            form.edDescription.text.toString(),
+            HtmlManager.toHtml(form.edDescription.text),
             getData(),
             ""
         )
