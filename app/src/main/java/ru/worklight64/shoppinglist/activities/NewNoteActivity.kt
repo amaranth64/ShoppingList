@@ -1,10 +1,15 @@
 package ru.worklight64.shoppinglist.activities
 
 import android.content.Intent
+import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Spannable
+import android.text.style.StyleSpan
+import android.text.style.TypefaceSpan
 import android.view.Menu
 import android.view.MenuItem
+import androidx.core.text.getSpans
 import ru.worklight64.shoppinglist.R
 import ru.worklight64.shoppinglist.databinding.ActivityNewNoteBinding
 import ru.worklight64.shoppinglist.entities.NoteItem
@@ -33,8 +38,27 @@ class NewNoteActivity : AppCompatActivity() {
             setMainResult()
         } else if (item.itemId == android.R.id.home){
             finish()
+        } else if (item.itemId == R.id.id_bold){
+            setBoldForSelectedText()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun setBoldForSelectedText() = with(form) {
+        val startPos = edDescription.selectionStart
+        val endPos = edDescription.selectionEnd
+
+        val styles = edDescription.text.getSpans(startPos, endPos, StyleSpan::class.java)
+        var boldStyle:StyleSpan? = null
+        if (styles.isNotEmpty()){
+            edDescription.text.removeSpan(styles[0])
+        }else{
+            boldStyle = StyleSpan(Typeface.BOLD)
+            edDescription.text.setSpan(boldStyle, startPos, endPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+
+        edDescription.text.trim()
+        edDescription.setSelection(startPos)
     }
 
     private fun getNoteItem() = with(form){
