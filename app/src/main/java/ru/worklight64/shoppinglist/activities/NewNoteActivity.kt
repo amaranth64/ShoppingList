@@ -2,6 +2,7 @@ package ru.worklight64.shoppinglist.activities
 
 import android.content.Intent
 import android.graphics.Typeface
+import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Spannable
@@ -9,7 +10,11 @@ import android.text.style.StyleSpan
 import android.text.style.TypefaceSpan
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.core.text.getSpans
+import androidx.core.view.isVisible
 import ru.worklight64.shoppinglist.R
 import ru.worklight64.shoppinglist.databinding.ActivityNewNoteBinding
 import ru.worklight64.shoppinglist.entities.NoteItem
@@ -41,7 +46,10 @@ class NewNoteActivity : AppCompatActivity() {
             finish()
         } else if (item.itemId == R.id.id_bold){
             setBoldForSelectedText()
+        } else if (item.itemId == R.id.id_color){
+            if (form.colorPicker.isVisible) closeColorPicker() else openColorPicker()
         }
+
         return super.onOptionsItemSelected(item)
     }
 
@@ -115,5 +123,28 @@ class NewNoteActivity : AppCompatActivity() {
     }
     private fun actionBarSettings(){
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    private fun openColorPicker(){
+        val startAnim = AnimationUtils.loadAnimation(this, R.anim.open_color_picker)
+        form.colorPicker.visibility = View.VISIBLE
+        form.colorPicker.startAnimation(startAnim)
+    }
+
+    private fun closeColorPicker(){
+        val closeAnim = AnimationUtils.loadAnimation(this, R.anim.close_color_picker)
+        closeAnim.setAnimationListener(object : Animation.AnimationListener{
+            override fun onAnimationStart(p0: Animation?) {
+            }
+
+            override fun onAnimationEnd(p0: Animation?) {
+                form.colorPicker.visibility = View.GONE
+            }
+
+            override fun onAnimationRepeat(p0: Animation?) {
+            }
+
+        })
+        form.colorPicker.startAnimation(closeAnim)
     }
 }
