@@ -1,12 +1,16 @@
 package ru.worklight64.shoppinglist.activities
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.Typeface
+import android.graphics.drawable.Drawable
 import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Spannable
+import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.text.style.TypefaceSpan
 import android.view.Menu
@@ -14,6 +18,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import androidx.core.content.ContextCompat
 import androidx.core.text.getSpans
 import androidx.core.view.isVisible
 import ru.worklight64.shoppinglist.R
@@ -35,11 +40,31 @@ class NewNoteActivity : AppCompatActivity() {
         actionBarSettings()
         getNoteItem()
         init()
+        onClickColorPicker()
     }
 
     @SuppressLint("ClickableViewAccessibility")
     private fun  init(){
         form.colorPicker.setOnTouchListener(MyTouchListener())
+    }
+
+
+    private fun onClickColorPicker() = with(form){
+        val diffPos = edDescription.selectionStart - edDescription.selectionEnd
+        ibBlack.setOnClickListener {
+
+            ForegroundColorSpan(Color.BLACK)
+            setColorForSelectedText(R.color.picker_black)
+        }
+        ibBlue.setOnClickListener {
+            setColorForSelectedText(R.color.picker_blue)
+        }
+        ibRed.setOnClickListener {
+            setColorForSelectedText(R.color.picker_red)
+        }
+        ibYellow.setOnClickListener { setColorForSelectedText(R.color.picker_yellow)  }
+        ibOrange.setOnClickListener { setColorForSelectedText(R.color.picker_orange)  }
+        ibGreen.setOnClickListener { setColorForSelectedText(R.color.picker_green)  }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -73,6 +98,20 @@ class NewNoteActivity : AppCompatActivity() {
             boldStyle = StyleSpan(Typeface.BOLD)
             edDescription.text.setSpan(boldStyle, startPos, endPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
+
+        edDescription.text.trim()
+        edDescription.setSelection(startPos)
+    }
+
+    private fun setColorForSelectedText(colorId: Int) = with(form) {
+        val startPos = edDescription.selectionStart
+        val endPos = edDescription.selectionEnd
+
+        val styles = edDescription.text.getSpans(startPos, endPos, ForegroundColorSpan::class.java)
+        if (styles.isNotEmpty()) edDescription.text.removeSpan(styles[0])
+        edDescription.text.setSpan(
+            ForegroundColorSpan(ContextCompat.getColor(this@NewNoteActivity, colorId)),
+            startPos, endPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
 
         edDescription.text.trim()
         edDescription.setSelection(startPos)
