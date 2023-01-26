@@ -1,5 +1,6 @@
 package ru.worklight64.shoppinglist.activities
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Typeface
 import android.opengl.Visibility
@@ -20,6 +21,7 @@ import ru.worklight64.shoppinglist.databinding.ActivityNewNoteBinding
 import ru.worklight64.shoppinglist.entities.NoteItem
 import ru.worklight64.shoppinglist.fragments.NoteFragment
 import ru.worklight64.shoppinglist.utils.HtmlManager
+import ru.worklight64.shoppinglist.utils.MyTouchListener
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -32,6 +34,12 @@ class NewNoteActivity : AppCompatActivity() {
         setContentView(form.root)
         actionBarSettings()
         getNoteItem()
+        init()
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun  init(){
+        form.colorPicker.setOnTouchListener(MyTouchListener())
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
