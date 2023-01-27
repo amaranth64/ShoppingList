@@ -17,4 +17,8 @@
     <string name="save">Save</string>
     <string name="bold">Bold</string>
     <string name="color">Color</string>
+
+    <string name="new_list_name">New List Name</string>
+    <string name="new_list">New List</string>
+    <string name="create">Create</string>
 </resources>
