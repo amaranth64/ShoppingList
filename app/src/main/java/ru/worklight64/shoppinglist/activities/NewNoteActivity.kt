@@ -1,25 +1,17 @@
 package ru.worklight64.shoppinglist.activities
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.graphics.Typeface
-import android.graphics.drawable.Drawable
-import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Spannable
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
-import android.text.style.TypefaceSpan
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.core.content.ContextCompat
-import androidx.core.text.getSpans
 import androidx.core.view.isVisible
 import ru.worklight64.shoppinglist.R
 import ru.worklight64.shoppinglist.databinding.ActivityNewNoteBinding
@@ -41,6 +33,7 @@ class NewNoteActivity : AppCompatActivity() {
         getNoteItem()
         init()
         onClickColorPicker()
+        actionMenuCallback()
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -50,10 +43,8 @@ class NewNoteActivity : AppCompatActivity() {
 
 
     private fun onClickColorPicker() = with(form){
-        val diffPos = edDescription.selectionStart - edDescription.selectionEnd
         ibBlack.setOnClickListener {
 
-            ForegroundColorSpan(Color.BLACK)
             setColorForSelectedText(R.color.picker_black)
         }
         ibBlue.setOnClickListener {
@@ -130,7 +121,7 @@ class NewNoteActivity : AppCompatActivity() {
 
     private fun setMainResult(){
         var editSate = "new"
-        var tempNote: NoteItem?
+        val tempNote: NoteItem?
         if (note == null) {
             tempNote = createNote()
         } else {
@@ -193,5 +184,29 @@ class NewNoteActivity : AppCompatActivity() {
 
         })
         form.colorPicker.startAnimation(closeAnim)
+    }
+
+    private  fun actionMenuCallback(){
+        val actionCallback = object : ActionMode.Callback{
+            override fun onCreateActionMode(p0: ActionMode?, p1: Menu?): Boolean {
+                p1?.clear()
+                return true
+            }
+
+            override fun onPrepareActionMode(p0: ActionMode?, p1: Menu?): Boolean {
+                p1?.clear()
+                return true
+            }
+
+            override fun onActionItemClicked(p0: ActionMode?, p1: MenuItem?): Boolean {
+                return true
+            }
+
+            override fun onDestroyActionMode(p0: ActionMode?) {
+
+            }
+
+        }
+        form.edDescription.customSelectionActionModeCallback = actionCallback
     }
 }
