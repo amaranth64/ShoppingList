@@ -55,7 +55,6 @@ class NoteFragment : BaseFragment(), NodeAdapter.NoteItemListener {
         rcViewNote.layoutManager = LinearLayoutManager(activity)
         adapter = NodeAdapter(this@NoteFragment)
         rcViewNote.adapter = adapter
-
     }
 
     private fun observer(){

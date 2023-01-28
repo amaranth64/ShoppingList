@@ -26,6 +26,10 @@ class MainViewModel(database: MainDataBase): ViewModel() {
     fun insertShoppingListName(listName: ShoppingListName) = viewModelScope.launch {
         dao.insertShoppingListName(listName)
     }
+    fun deleteShoppingListName(id: Int) = viewModelScope.launch {
+        dao.deleteShoppingListName(id)
+    }
+
 
     //==============================================
     class MainViewModelFactory(private val database: MainDataBase): ViewModelProvider.Factory{
