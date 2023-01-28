@@ -71,9 +71,9 @@ class NoteFragment : BaseFragment(), NodeAdapter.NoteItemListener {
             if (it.resultCode == Activity.RESULT_OK){
                 val editState =it.data?.getStringExtra(EDIT_STATE_KEY)
                 if (editState == "update"){
-                    mainViewModel.updateData(it.data?.getSerializableExtra(NEW_NOTE_KEY) as NoteItem)
+                    mainViewModel.updateNote(it.data?.getSerializableExtra(NEW_NOTE_KEY) as NoteItem)
                 } else {
-                    mainViewModel.insertData(it.data?.getSerializableExtra(NEW_NOTE_KEY) as NoteItem)
+                    mainViewModel.insertNote(it.data?.getSerializableExtra(NEW_NOTE_KEY) as NoteItem)
                 }
 
 
@@ -92,7 +92,7 @@ class NoteFragment : BaseFragment(), NodeAdapter.NoteItemListener {
     }
 
     override fun deleteItem(id: Int) {
-        mainViewModel.deleteData(id)
+        mainViewModel.deleteNote(id)
     }
 
     override fun onClickItem(note: NoteItem) {

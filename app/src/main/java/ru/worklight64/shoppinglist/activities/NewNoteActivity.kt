@@ -19,6 +19,7 @@ import ru.worklight64.shoppinglist.entities.NoteItem
 import ru.worklight64.shoppinglist.fragments.NoteFragment
 import ru.worklight64.shoppinglist.utils.HtmlManager
 import ru.worklight64.shoppinglist.utils.MyTouchListener
+import ru.worklight64.shoppinglist.utils.TimeManager
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -150,15 +151,12 @@ class NewNoteActivity : AppCompatActivity() {
             null,
             form.edTitle.text.toString(),
             HtmlManager.toHtml(form.edDescription.text),
-            getData(),
+            TimeManager.getData(),
             ""
         )
     }
 
-    private fun getData():String{
-        val formatter = SimpleDateFormat("HH:mm:ss - dd/MM/yy", Locale.getDefault())
-        return formatter.format(Calendar.getInstance().time)
-    }
+
     private fun actionBarSettings(){
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }

@@ -11,6 +11,8 @@ import ru.worklight64.shoppinglist.activities.MainApp
 import ru.worklight64.shoppinglist.databinding.FragmentShoppingListNamesBinding
 import ru.worklight64.shoppinglist.db.MainViewModel
 import ru.worklight64.shoppinglist.dialogs.NewListDialog
+import ru.worklight64.shoppinglist.entities.ShoppingListName
+import ru.worklight64.shoppinglist.utils.TimeManager
 
 
 class ShoppingListNamesFragment : BaseFragment() {
@@ -23,9 +25,16 @@ class ShoppingListNamesFragment : BaseFragment() {
     override fun onClickNew() {
         NewListDialog.showDialog(activity as AppCompatActivity, object : NewListDialog.Listener{
             override fun onClick(newListName: String) {
-                Toast.makeText(activity as AppCompatActivity, newListName,Toast.LENGTH_SHORT).show()
+                val shopListNameItem = ShoppingListName(
+                    null,
+                    newListName,
+                    TimeManager.getData(),
+                    0,
+                    0,
+                    ""
+                )
+                mainViewModel.insertShoppingListName(shopListNameItem)
             }
-
         })
     }
 
@@ -48,7 +57,7 @@ class ShoppingListNamesFragment : BaseFragment() {
     }
 
     private fun observer(){
-        mainViewModel.allNotes.observe(viewLifecycleOwner) {
+        mainViewModel.allShoppingListNames.observe(viewLifecycleOwner) {
 
         }
     }
