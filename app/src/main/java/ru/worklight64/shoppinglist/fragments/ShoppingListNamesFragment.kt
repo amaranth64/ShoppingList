@@ -11,6 +11,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import ru.worklight64.shoppinglist.activities.MainApp
 import ru.worklight64.shoppinglist.activities.NewNoteActivity
+import ru.worklight64.shoppinglist.activities.ShopListActivity
 import ru.worklight64.shoppinglist.databinding.FragmentShoppingListNamesBinding
 import ru.worklight64.shoppinglist.db.MainViewModel
 import ru.worklight64.shoppinglist.db.ShopListAdapter
@@ -95,7 +96,10 @@ class ShoppingListNamesFragment : BaseFragment(), ShopListAdapter.ShopListListen
     }
 
     override fun onClickItem(shopList: ShoppingListName) {
-
+        val i = Intent(activity, ShopListActivity::class.java).apply{
+            putExtra(ShopListActivity.SHOP_LIST_KEY,shopList)
+        }
+        startActivity(i)
     }
 
     companion object {

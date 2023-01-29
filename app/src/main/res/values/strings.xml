@@ -25,4 +25,10 @@
     <string name="delete_que">Do you want delete this item?</string>
     <string name="cancel">Cancel</string>
     <string name="update">Update</string>
+    <string name="clear_list">Clear list</string>
+    <string name="delete_list">Delete list</string>
+    <string name="share_list">Share list</string>
+
+    <string name="new_item">New item</string>
+    <string name="save_item">Save item</string>
 </resources>
