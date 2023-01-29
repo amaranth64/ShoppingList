@@ -13,6 +13,7 @@ import ru.worklight64.shoppinglist.activities.NewNoteActivity
 import ru.worklight64.shoppinglist.databinding.FragmentShoppingListNamesBinding
 import ru.worklight64.shoppinglist.db.MainViewModel
 import ru.worklight64.shoppinglist.db.ShopListAdapter
+import ru.worklight64.shoppinglist.dialogs.DeleteDialog
 import ru.worklight64.shoppinglist.dialogs.NewListDialog
 import ru.worklight64.shoppinglist.entities.ShoppingListName
 import ru.worklight64.shoppinglist.utils.TimeManager
@@ -73,7 +74,11 @@ class ShoppingListNamesFragment : BaseFragment(), ShopListAdapter.ShopListListen
     }
 
     override fun deleteItem(id: Int) {
-        mainViewModel.deleteShoppingListName(id)
+        DeleteDialog.showDialog(context as AppCompatActivity, object : DeleteDialog.Listener{
+            override fun onClick() {
+                mainViewModel.deleteShoppingListName(id)
+            }
+        })
     }
 
     override fun editItem(id: Int) {
