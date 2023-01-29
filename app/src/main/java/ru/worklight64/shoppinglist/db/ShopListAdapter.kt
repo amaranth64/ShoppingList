@@ -33,7 +33,7 @@ class ShopListAdapter(private var listener: ShopListListener): ListAdapter<Shopp
             }
 
             ibEdit.setOnClickListener {
-                listener.editItem(shopList.id!!)
+                listener.editItem(shopList)
             }
 
             ibDelete.setOnClickListener {
@@ -62,7 +62,7 @@ class ShopListAdapter(private var listener: ShopListListener): ListAdapter<Shopp
 
     interface ShopListListener{
         fun deleteItem(id: Int)
-        fun editItem(id: Int)
+        fun editItem(shopList: ShoppingListName)
 
         fun onClickItem(shopList: ShoppingListName)
     }

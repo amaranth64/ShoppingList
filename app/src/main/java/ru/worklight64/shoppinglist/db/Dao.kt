@@ -24,7 +24,9 @@ interface Dao {
     @Query("SELECT * FROM shopping_list_names")
     fun getAllShoppingListNames(): Flow<List<ShoppingListName>>
     @Insert
-    suspend fun insertShoppingListName(note: ShoppingListName)
+    suspend fun insertShoppingListName(shopList: ShoppingListName)
     @Query("DELETE FROM shopping_list_names WHERE id IS :id")
     suspend fun deleteShoppingListName(id: Int)
+    @Update
+    suspend fun updateShoppingListName(shopList: ShoppingListName)
 }

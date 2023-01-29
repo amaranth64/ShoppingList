@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,6 +23,7 @@ import ru.worklight64.shoppinglist.utils.TimeManager
 class ShoppingListNamesFragment : BaseFragment(), ShopListAdapter.ShopListListener {
     private lateinit var fragForm: FragmentShoppingListNamesBinding
     private lateinit var adapter: ShopListAdapter
+    private lateinit var editLauncher: ActivityResultLauncher<Intent>
 
     private val mainViewModel: MainViewModel by activityViewModels{
         MainViewModel.MainViewModelFactory((context?.applicationContext as MainApp).database)
@@ -81,7 +83,14 @@ class ShoppingListNamesFragment : BaseFragment(), ShopListAdapter.ShopListListen
         })
     }
 
-    override fun editItem(id: Int) {
+    override fun editItem(shopList: ShoppingListName) {
+
+
+        NewListDialog.showDialog(activity as AppCompatActivity, object : NewListDialog.Listener{
+            override fun onClick(newListName: String) {
+                mainViewModel.updateNShoppingListName(shopList.copy(name = newListName))
+            }
+        },shopList.name)
 
     }
 

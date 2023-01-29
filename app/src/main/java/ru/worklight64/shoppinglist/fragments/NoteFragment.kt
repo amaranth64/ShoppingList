@@ -74,9 +74,6 @@ class NoteFragment : BaseFragment(), NodeAdapter.NoteItemListener {
                 } else {
                     mainViewModel.insertNote(it.data?.getSerializableExtra(NEW_NOTE_KEY) as NoteItem)
                 }
-
-
-
             }
         }
     }
