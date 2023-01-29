@@ -7,7 +7,7 @@
         android:id="@+id/new_item"
         android:icon="@drawable/ic_add"
         app:showAsAction = "ifRoom|collapseActionView"
-        android:actionLayout="@layout/edit_action_layout"
+        app:actionLayout="@layout/edit_action_layout"
         android:orderInCategory="1"
         />
     <item
