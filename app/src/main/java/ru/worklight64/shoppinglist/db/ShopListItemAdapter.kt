@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.worklight64.shoppinglist.R
 import ru.worklight64.shoppinglist.databinding.ListNameItemBinding
+import ru.worklight64.shoppinglist.databinding.ShopListItemBinding
 import ru.worklight64.shoppinglist.entities.ShoppingListItem
 import ru.worklight64.shoppinglist.entities.ShoppingListName
 import ru.worklight64.shoppinglist.fragments.ShoppingListNamesFragment
@@ -28,13 +29,18 @@ class ShopListItemAdapter(private var listener: ShopListListener): ListAdapter<S
         return getItem(position).itemType
     }
 
-    class ItemHolder(view:View):RecyclerView.ViewHolder(view){
-        private val itemForm = ListNameItemBinding.bind(view)
-        fun setItemData(shopList: ShoppingListItem, listener: ShopListListener)= with(itemForm){
+    class ItemHolder(val view:View):RecyclerView.ViewHolder(view){
 
+        fun setItemData(shopList: ShoppingListItem, listener: ShopListListener){
+            val itemForm = ShopListItemBinding.bind(view)
+            itemForm.apply {
+                tvName.text = shopList.name
+                tvInfo.text = shopList.itemInfo
+                if (shopList.itemChecked != 0) checkBox.isChecked = true
+            }
         }
 
-        fun setLibraryData(shopList: ShoppingListItem, listener: ShopListListener)= with(itemForm){
+        fun setLibraryData(shopList: ShoppingListItem, listener: ShopListListener){
 
         }
 

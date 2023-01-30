@@ -6,17 +6,21 @@ import android.view.MenuItem
 import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import ru.worklight64.shoppinglist.R
 import ru.worklight64.shoppinglist.databinding.ActivityShopListBinding
 import ru.worklight64.shoppinglist.db.MainViewModel
+import ru.worklight64.shoppinglist.db.ShopListItemAdapter
 import ru.worklight64.shoppinglist.entities.ShoppingListItem
 import ru.worklight64.shoppinglist.entities.ShoppingListName
 
-class ShopListActivity : AppCompatActivity() {
+class ShopListActivity : AppCompatActivity(),ShopListItemAdapter.ShopListListener {
     private lateinit var form: ActivityShopListBinding
     private var shopListName: ShoppingListName? = null
     private lateinit var saveItemMenu: MenuItem
     private var edName: EditText? = null
+    private var adapter: ShopListItemAdapter? = null
 
     private val mainViewModel: MainViewModel by viewModels{
         MainViewModel.MainViewModelFactory((applicationContext as MainApp).database)
@@ -26,6 +30,8 @@ class ShopListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         form = ActivityShopListBinding.inflate(layoutInflater)
         setContentView(form.root)
+        init()
+        itemsObserver()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -36,6 +42,11 @@ class ShopListActivity : AppCompatActivity() {
         newItem.setOnActionExpandListener(expandActionView())
         saveItemMenu.isVisible = false
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.save_item) addNewShopListItem()
+        return super.onOptionsItemSelected(item)
     }
 
     private fun expandActionView():MenuItem.OnActionExpandListener{
@@ -64,14 +75,37 @@ class ShopListActivity : AppCompatActivity() {
             shopListName?.id!!,
             0
         )
+        edName?.setText("")
         mainViewModel.insertShoppingListItem(item)
     }
 
-    private fun init(){
+    private fun init() = with(form){
         shopListName = intent.getSerializableExtra(SHOP_LIST_KEY) as ShoppingListName
+
+        rcShopListItems.layoutManager= LinearLayoutManager(this@ShopListActivity)
+        adapter= ShopListItemAdapter(this@ShopListActivity)
+        rcShopListItems.adapter = adapter
+    }
+
+    private fun itemsObserver(){
+        mainViewModel.getAllShoppingListItems(shopListName?.id!!).observe(this, {
+            adapter?.submitList(it)
+        })
     }
 
     companion object{
         const val SHOP_LIST_KEY = "shop_list_key"
+    }
+
+    override fun deleteItem(id: Int) {
+
+    }
+
+    override fun editItem(shopList: ShoppingListName) {
+
+    }
+
+    override fun onClickItem(shopList: ShoppingListName) {
+
     }
 }

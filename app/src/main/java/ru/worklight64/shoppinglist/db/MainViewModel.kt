@@ -35,6 +35,10 @@ class MainViewModel(database: MainDataBase): ViewModel() {
     }
 
     //==============================================
+    fun getAllShoppingListItems(listId: Int): LiveData<List<ShoppingListItem>> {
+        return dao.getAllShoppingListItems(listId).asLiveData()
+    }
+
     fun insertShoppingListItem(item: ShoppingListItem) = viewModelScope.launch {
         dao.insertShoppingListItem(item)
     }
