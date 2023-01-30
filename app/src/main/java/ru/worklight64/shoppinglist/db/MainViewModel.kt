@@ -3,6 +3,7 @@ package ru.worklight64.shoppinglist.db
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import ru.worklight64.shoppinglist.entities.NoteItem
+import ru.worklight64.shoppinglist.entities.ShoppingListItem
 import ru.worklight64.shoppinglist.entities.ShoppingListName
 
 class MainViewModel(database: MainDataBase): ViewModel() {
@@ -33,6 +34,10 @@ class MainViewModel(database: MainDataBase): ViewModel() {
         dao.updateShoppingListName(listName)
     }
 
+    //==============================================
+    fun insertShoppingListItem(item: ShoppingListItem) = viewModelScope.launch {
+        dao.insertShoppingListItem(item)
+    }
     //==============================================
     class MainViewModelFactory(private val database: MainDataBase): ViewModelProvider.Factory{
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
