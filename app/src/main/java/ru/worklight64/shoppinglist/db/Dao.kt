@@ -35,8 +35,8 @@ interface Dao {
     @Query("SELECT * FROM shop_list_item WHERE listId LIKE :linkId")
     fun getAllShoppingListItems(linkId: Int): Flow<List<ShoppingListItem>>
     @Insert
-    suspend fun insertShoppingListItem(shopList: ShoppingListItem)
+    suspend fun insertShoppingListItem(item: ShoppingListItem)
     @Update
-    suspend fun updateShoppingListItem(shopList: ShoppingListItem)
+    suspend fun updateShoppingListItem(item: ShoppingListItem)
 
 }

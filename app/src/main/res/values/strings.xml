@@ -32,4 +32,8 @@
     <string name="new_item">New item</string>
     <string name="save_item">Save item</string>
     <string name="empty">Empty</string>
+
+    <string name="update_item">Update item</string>
+    <string name="name">Name</string>
+    <string name="info">Info</string>
 </resources>

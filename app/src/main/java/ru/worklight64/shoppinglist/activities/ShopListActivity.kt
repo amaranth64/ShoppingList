@@ -8,11 +8,11 @@ import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import ru.worklight64.shoppinglist.R
 import ru.worklight64.shoppinglist.databinding.ActivityShopListBinding
 import ru.worklight64.shoppinglist.db.MainViewModel
 import ru.worklight64.shoppinglist.db.ShopListItemAdapter
+import ru.worklight64.shoppinglist.dialogs.EditListItemDialog
 import ru.worklight64.shoppinglist.entities.ShoppingListItem
 import ru.worklight64.shoppinglist.entities.ShoppingListName
 
@@ -102,7 +102,17 @@ class ShopListActivity : AppCompatActivity(),ShopListItemAdapter.ShopListListene
     }
 
 
-    override fun onClickItem(shopList: ShoppingListItem) {
-        mainViewModel.updateNShoppingListItem(shopList)
+    override fun onCheckItem(item: ShoppingListItem) {
+        mainViewModel.updateShoppingListItem(item)
     }
+
+    override fun onEditItem(item: ShoppingListItem) {
+        EditListItemDialog.showDialog(this, item, object : EditListItemDialog.Listener{
+            override fun onClick(item: ShoppingListItem) {
+                mainViewModel.updateShoppingListItem(item)
+            }
+
+        })
+    }
+
 }

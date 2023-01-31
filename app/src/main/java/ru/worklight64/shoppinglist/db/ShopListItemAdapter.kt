@@ -1,7 +1,6 @@
 package ru.worklight64.shoppinglist.db
 
 import android.graphics.Paint
-import android.graphics.PaintFlagsDrawFilter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,11 +10,8 @@ import androidx.recyclerview.widget.ListAdapter
 
 import androidx.recyclerview.widget.RecyclerView
 import ru.worklight64.shoppinglist.R
-import ru.worklight64.shoppinglist.databinding.ListNameItemBinding
 import ru.worklight64.shoppinglist.databinding.ShopListItemBinding
 import ru.worklight64.shoppinglist.entities.ShoppingListItem
-import ru.worklight64.shoppinglist.entities.ShoppingListName
-import ru.worklight64.shoppinglist.fragments.ShoppingListNamesFragment
 
 class ShopListItemAdapter(private var listener: ShopListListener): ListAdapter<ShoppingListItem, ShopListItemAdapter.ItemHolder>(ItemComparator()) {
 
@@ -38,12 +34,17 @@ class ShopListItemAdapter(private var listener: ShopListListener): ListAdapter<S
             val itemForm = ShopListItemBinding.bind(view)
             itemForm.apply {
                 tvName.text = shopList.name
-                if (shopList.itemInfo.isNullOrBlank()) tvInfo.visibility = View.GONE
                 tvInfo.text = shopList.itemInfo
                 checkBox.isChecked = shopList.itemChecked
+                if (shopList.itemInfo.isEmpty()) tvInfo.visibility = View.GONE
+                else tvInfo.visibility = View.VISIBLE
                 setPaintFlagAndColor(itemForm)
+
                 checkBox.setOnClickListener {
-                    listener.onClickItem(shopList.copy(itemChecked = checkBox.isChecked))
+                    listener.onCheckItem(shopList.copy(itemChecked = checkBox.isChecked))
+                }
+                ibEdit.setOnClickListener {
+                    listener.onEditItem(shopList)
                 }
             }
         }
@@ -94,7 +95,9 @@ class ShopListItemAdapter(private var listener: ShopListListener): ListAdapter<S
 
     interface ShopListListener{
 
-        fun onClickItem(shopList: ShoppingListItem)
+        fun onCheckItem(item: ShoppingListItem)
+        fun onEditItem(item: ShoppingListItem)
+
     }
 
 }
