@@ -3,6 +3,7 @@ package ru.worklight64.shoppinglist.activities
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -77,6 +78,7 @@ class ShopListActivity : AppCompatActivity(),ShopListItemAdapter.ShopListListene
         )
         edName?.setText("")
         mainViewModel.insertShoppingListItem(item)
+
     }
 
     private fun init() = with(form){
@@ -85,12 +87,14 @@ class ShopListActivity : AppCompatActivity(),ShopListItemAdapter.ShopListListene
         rcShopListItems.layoutManager= LinearLayoutManager(this@ShopListActivity)
         adapter= ShopListItemAdapter(this@ShopListActivity)
         rcShopListItems.adapter = adapter
+
     }
 
     private fun itemsObserver(){
-        mainViewModel.getAllShoppingListItems(shopListName?.id!!).observe(this, {
+        mainViewModel.getAllShoppingListItems(shopListName?.id!!).observe(this) {
             adapter?.submitList(it)
-        })
+            if (it.isEmpty()) form.tvEmpty.visibility = View.VISIBLE else form.tvEmpty.visibility = View.GONE
+        }
     }
 
     companion object{

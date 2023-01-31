@@ -16,4 +16,7 @@
     <color name="picker_blue">#0288F2</color>
     <color name="picker_black">#101010</color>
     <color name="picker_yellow">#FFEB3B</color>
+
+    <color name="text_black">#050505</color>
+    <color name="text_grey">#595959</color>
 </resources>

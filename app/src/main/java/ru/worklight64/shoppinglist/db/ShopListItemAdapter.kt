@@ -1,8 +1,11 @@
 package ru.worklight64.shoppinglist.db
 
+import android.graphics.Paint
+import android.graphics.PaintFlagsDrawFilter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 
@@ -35,8 +38,29 @@ class ShopListItemAdapter(private var listener: ShopListListener): ListAdapter<S
             val itemForm = ShopListItemBinding.bind(view)
             itemForm.apply {
                 tvName.text = shopList.name
+                if (shopList.itemInfo.isNullOrBlank()) tvInfo.visibility = View.GONE
                 tvInfo.text = shopList.itemInfo
                 if (shopList.itemChecked != 0) checkBox.isChecked = true
+
+                checkBox.setOnClickListener {
+                    setPaintFlagAndColor(itemForm)
+                }
+            }
+        }
+
+        private fun setPaintFlagAndColor(itemForm: ShopListItemBinding){
+            itemForm.apply {
+                if (checkBox.isChecked){
+                    tvName.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+                    tvInfo.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+                    tvName.setTextColor(ContextCompat.getColor(itemForm.root.context, R.color.text_grey))
+                    tvInfo.setTextColor(ContextCompat.getColor(itemForm.root.context, R.color.text_grey))
+                } else {
+                    tvName.paintFlags = Paint.ANTI_ALIAS_FLAG
+                    tvInfo.paintFlags = Paint.ANTI_ALIAS_FLAG
+                    tvName.setTextColor(ContextCompat.getColor(itemForm.root.context, R.color.text_black))
+                    tvInfo.setTextColor(ContextCompat.getColor(itemForm.root.context, R.color.text_black))
+                }
             }
         }
 
