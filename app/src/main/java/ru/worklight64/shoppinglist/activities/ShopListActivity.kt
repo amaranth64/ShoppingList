@@ -46,7 +46,18 @@ class ShopListActivity : AppCompatActivity(),ShopListItemAdapter.ShopListListene
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.save_item) addNewShopListItem()
+        when (item.itemId) {
+            R.id.save_item -> {
+                addNewShopListItem()
+            }
+            R.id.delete_list -> {
+                mainViewModel.deleteShoppingListName(shopListName?.id!!)
+                finish()
+            }
+            R.id.clear_list -> {
+                mainViewModel.clearShoppingListItems(shopListName?.id!!)
+            }
+        }
         return super.onOptionsItemSelected(item)
     }
 

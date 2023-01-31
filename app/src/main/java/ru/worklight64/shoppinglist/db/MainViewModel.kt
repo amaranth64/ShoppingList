@@ -29,6 +29,7 @@ class MainViewModel(database: MainDataBase): ViewModel() {
     }
     fun deleteShoppingListName(id: Int) = viewModelScope.launch {
         dao.deleteShoppingListName(id)
+        dao.deleteShoppingListItems(id)
     }
     fun updateNShoppingListName(listName: ShoppingListName) = viewModelScope.launch {
         dao.updateShoppingListName(listName)
@@ -44,6 +45,9 @@ class MainViewModel(database: MainDataBase): ViewModel() {
     }
     fun updateShoppingListItem(item: ShoppingListItem) = viewModelScope.launch {
         dao.updateShoppingListItem(item)
+    }
+    fun clearShoppingListItems(listId: Int) = viewModelScope.launch {
+        dao.deleteShoppingListItems(listId)
     }
     //==============================================
     class MainViewModelFactory(private val database: MainDataBase): ViewModelProvider.Factory{

@@ -38,5 +38,6 @@ interface Dao {
     suspend fun insertShoppingListItem(item: ShoppingListItem)
     @Update
     suspend fun updateShoppingListItem(item: ShoppingListItem)
-
+    @Query("DELETE FROM shop_list_item WHERE listId LIKE :linkId")
+    suspend fun deleteShoppingListItems(linkId: Int)
 }
