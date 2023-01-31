@@ -36,5 +36,7 @@ interface Dao {
     fun getAllShoppingListItems(linkId: Int): Flow<List<ShoppingListItem>>
     @Insert
     suspend fun insertShoppingListItem(shopList: ShoppingListItem)
+    @Update
+    suspend fun updateShoppingListItem(shopList: ShoppingListItem)
 
 }

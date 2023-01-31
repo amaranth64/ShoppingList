@@ -72,7 +72,7 @@ class ShopListActivity : AppCompatActivity(),ShopListItemAdapter.ShopListListene
             null,
             edName?.text.toString(),
             "",
-            0,
+            false,
             shopListName?.id!!,
             0
         )
@@ -101,15 +101,8 @@ class ShopListActivity : AppCompatActivity(),ShopListItemAdapter.ShopListListene
         const val SHOP_LIST_KEY = "shop_list_key"
     }
 
-    override fun deleteItem(id: Int) {
 
-    }
-
-    override fun editItem(shopList: ShoppingListName) {
-
-    }
-
-    override fun onClickItem(shopList: ShoppingListName) {
-
+    override fun onClickItem(shopList: ShoppingListItem) {
+        mainViewModel.updateNShoppingListItem(shopList)
     }
 }

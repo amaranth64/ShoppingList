@@ -40,10 +40,10 @@ class ShopListItemAdapter(private var listener: ShopListListener): ListAdapter<S
                 tvName.text = shopList.name
                 if (shopList.itemInfo.isNullOrBlank()) tvInfo.visibility = View.GONE
                 tvInfo.text = shopList.itemInfo
-                if (shopList.itemChecked != 0) checkBox.isChecked = true
-
+                checkBox.isChecked = shopList.itemChecked
+                setPaintFlagAndColor(itemForm)
                 checkBox.setOnClickListener {
-                    setPaintFlagAndColor(itemForm)
+                    listener.onClickItem(shopList.copy(itemChecked = checkBox.isChecked))
                 }
             }
         }
@@ -93,10 +93,8 @@ class ShopListItemAdapter(private var listener: ShopListListener): ListAdapter<S
     }
 
     interface ShopListListener{
-        fun deleteItem(id: Int)
-        fun editItem(shopList: ShoppingListName)
 
-        fun onClickItem(shopList: ShoppingListName)
+        fun onClickItem(shopList: ShoppingListItem)
     }
 
 }

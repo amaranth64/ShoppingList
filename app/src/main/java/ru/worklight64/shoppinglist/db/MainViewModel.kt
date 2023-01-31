@@ -42,6 +42,9 @@ class MainViewModel(database: MainDataBase): ViewModel() {
     fun insertShoppingListItem(item: ShoppingListItem) = viewModelScope.launch {
         dao.insertShoppingListItem(item)
     }
+    fun updateNShoppingListItem(item: ShoppingListItem) = viewModelScope.launch {
+        dao.updateShoppingListItem(item)
+    }
     //==============================================
     class MainViewModelFactory(private val database: MainDataBase): ViewModelProvider.Factory{
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
