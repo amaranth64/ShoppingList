@@ -1,5 +1,6 @@
 package ru.worklight64.shoppinglist.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -15,6 +16,7 @@ import ru.worklight64.shoppinglist.db.ShopListItemAdapter
 import ru.worklight64.shoppinglist.dialogs.EditListItemDialog
 import ru.worklight64.shoppinglist.entities.ShoppingListItem
 import ru.worklight64.shoppinglist.entities.ShoppingListName
+import ru.worklight64.shoppinglist.utils.ShareShoppingListHelper
 
 class ShopListActivity : AppCompatActivity(),ShopListItemAdapter.ShopListListener {
     private lateinit var form: ActivityShopListBinding
@@ -56,6 +58,12 @@ class ShopListActivity : AppCompatActivity(),ShopListItemAdapter.ShopListListene
             }
             R.id.clear_list -> {
                 mainViewModel.clearShoppingListItems(shopListName?.id!!)
+            }
+            R.id.share_list -> {
+                startActivity(Intent.createChooser(
+                    ShareShoppingListHelper.share(adapter?.currentList!!, shopListName?.name!!),
+                    getString(R.string.share_by)
+                ))
             }
         }
         return super.onOptionsItemSelected(item)

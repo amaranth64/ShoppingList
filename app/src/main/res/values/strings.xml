@@ -36,4 +36,5 @@
     <string name="update_item">Update item</string>
     <string name="name">Name</string>
     <string name="info">Info</string>
+    <string name="share_by">Share by</string>
 </resources>
