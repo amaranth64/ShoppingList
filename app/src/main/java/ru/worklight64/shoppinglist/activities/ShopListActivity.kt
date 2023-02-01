@@ -2,12 +2,15 @@ package ru.worklight64.shoppinglist.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import ru.worklight64.shoppinglist.R
 import ru.worklight64.shoppinglist.databinding.ActivityShopListBinding
@@ -22,8 +25,9 @@ class ShopListActivity : AppCompatActivity(),ShopListItemAdapter.ShopListListene
     private lateinit var form: ActivityShopListBinding
     private var shopListName: ShoppingListName? = null
     private lateinit var saveItemMenu: MenuItem
-    private var edName: EditText? = null
+    private var edItem: EditText? = null
     private var adapter: ShopListItemAdapter? = null
+    private lateinit var txtWatcher: TextWatcher
 
     private val mainViewModel: MainViewModel by viewModels{
         MainViewModel.MainViewModelFactory((applicationContext as MainApp).database)
@@ -41,10 +45,27 @@ class ShopListActivity : AppCompatActivity(),ShopListItemAdapter.ShopListListene
         menuInflater.inflate(R.menu.shop_list_menu, menu)
         saveItemMenu = menu?.findItem(R.id.save_item)!!
         val newItem = menu.findItem(R.id.new_item)
-        edName = newItem.actionView?.findViewById(R.id.edNewShopItem) as EditText
+        edItem = newItem.actionView?.findViewById(R.id.edNewShopItem) as EditText
         newItem.setOnActionExpandListener(expandActionView())
         saveItemMenu.isVisible = false
         return true
+    }
+
+    private fun textWatcher(): TextWatcher{
+        return object : TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -73,12 +94,14 @@ class ShopListActivity : AppCompatActivity(),ShopListItemAdapter.ShopListListene
         return object : MenuItem.OnActionExpandListener{
             override fun onMenuItemActionExpand(p0: MenuItem): Boolean {
                 saveItemMenu.isVisible = true
+                edItem?.addTextChangedListener(txtWatcher)
                 return true
             }
 
             override fun onMenuItemActionCollapse(p0: MenuItem): Boolean {
                 saveItemMenu.isVisible = false
                 invalidateOptionsMenu()
+                edItem?.removeTextChangedListener(txtWatcher)
                 return true
             }
 
@@ -86,16 +109,16 @@ class ShopListActivity : AppCompatActivity(),ShopListItemAdapter.ShopListListene
     }
 
     private fun addNewShopListItem(){
-        if (edName?.text.toString().isEmpty()) return
+        if (edItem?.text.toString().isEmpty()) return
         val item = ShoppingListItem(
             null,
-            edName?.text.toString(),
+            edItem?.text.toString(),
             "",
             false,
             shopListName?.id!!,
             0
         )
-        edName?.setText("")
+        edItem?.setText("")
         mainViewModel.insertShoppingListItem(item)
 
     }
@@ -107,6 +130,7 @@ class ShopListActivity : AppCompatActivity(),ShopListItemAdapter.ShopListListene
         adapter= ShopListItemAdapter(this@ShopListActivity)
         rcShopListItems.adapter = adapter
 
+        txtWatcher = textWatcher()
     }
 
     private fun itemsObserver(){
