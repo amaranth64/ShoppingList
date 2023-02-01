@@ -3,8 +3,11 @@ package ru.worklight64.shoppinglist.activities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import ru.worklight64.shoppinglist.fragments.FragmentManager
 import ru.worklight64.shoppinglist.R
 import ru.worklight64.shoppinglist.databinding.ActivityMainBinding
+import ru.worklight64.shoppinglist.fragments.NoteFragment
+import ru.worklight64.shoppinglist.fragments.ShoppingListNamesFragment
 
 class MainActivity : AppCompatActivity() {
     lateinit var form: ActivityMainBinding
@@ -14,6 +17,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         form = ActivityMainBinding.inflate(layoutInflater)
         setContentView(form.root)
+        FragmentManager.setFragment(ShoppingListNamesFragment.newInstance(), this)
+        form.bNav.selectedItemId = R.id.shop_list
         setBottomNavListener()
     }
 
@@ -24,13 +29,13 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this, this.resources.getString(R.string.settings), Toast.LENGTH_LONG).show()
                 }
                 R.id.notes->{
-                    Toast.makeText(this, this.resources.getString(R.string.notes), Toast.LENGTH_LONG).show()
+                    FragmentManager.setFragment(NoteFragment.newInstance(), this)
                 }
                 R.id.shop_list->{
-                    Toast.makeText(this, this.resources.getString(R.string.shop), Toast.LENGTH_LONG).show()
+                    FragmentManager.setFragment(ShoppingListNamesFragment.newInstance(), this)
                 }
                 R.id.new_item->{
-                    Toast.makeText(this, this.resources.getString(R.string.newitem), Toast.LENGTH_LONG).show()
+                    FragmentManager.currentFragment?.onClickNew()
                 }
             }
             true

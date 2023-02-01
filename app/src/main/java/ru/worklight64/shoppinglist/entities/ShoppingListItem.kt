@@ -14,9 +14,9 @@ data class ShoppingListItem(
     @ColumnInfo(name = "itemInfo")
     val itemInfo:String,
     @ColumnInfo(name = "itemChecked")
-    val itemChecked: Int = 0,
+    val itemChecked: Boolean = false,
     @ColumnInfo(name = "listId")
     val listId: Int,
     @ColumnInfo(name = "itemType")
-    val itemType: String = "item"
+    val itemType: Int = 0
 )
