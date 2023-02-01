@@ -32,7 +32,7 @@ class MainViewModel(database: MainDataBase): ViewModel() {
         dao.deleteShoppingListName(id)
         dao.deleteShoppingListItems(id)
     }
-    fun updateNShoppingListName(listName: ShoppingListName) = viewModelScope.launch {
+    fun updateShoppingListName(listName: ShoppingListName) = viewModelScope.launch {
         dao.updateShoppingListName(listName)
     }
 

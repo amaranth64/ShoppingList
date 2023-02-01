@@ -10,10 +10,7 @@ import android.view.View
 import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.coroutines.Delay
-import kotlinx.coroutines.delay
 import ru.worklight64.shoppinglist.R
 import ru.worklight64.shoppinglist.databinding.ActivityShopListBinding
 import ru.worklight64.shoppinglist.db.MainViewModel
@@ -41,6 +38,21 @@ class ShopListActivity : AppCompatActivity(),ShopListItemAdapter.ShopListListene
         setContentView(form.root)
         init()
         itemsObserver()
+    }
+
+    override fun onBackPressed() {
+        var checkedItemCounter = 0
+        adapter?.currentList?.forEach{
+            if (it.itemChecked) checkedItemCounter++
+        }
+        val temp = shopListName?.copy(
+            allItemsCounter = adapter?.itemCount!!,
+            checkedItemsCounter = checkedItemCounter
+        )
+        if (temp != null) {
+            mainViewModel.updateShoppingListName(temp)
+        }
+        super.onBackPressed()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -73,7 +85,7 @@ class ShopListActivity : AppCompatActivity(),ShopListItemAdapter.ShopListListene
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.save_item -> {
-                addNewShopListItem()
+                addNewShopListItem(edItem?.text.toString())
             }
             R.id.delete_list -> {
                 mainViewModel.deleteShoppingListName(shopListName?.id!!)
@@ -117,11 +129,11 @@ class ShopListActivity : AppCompatActivity(),ShopListItemAdapter.ShopListListene
         }
     }
 
-    private fun addNewShopListItem(){
-        if (edItem?.text.toString().isEmpty()) return
+    private fun addNewShopListItem(name: String){
+        if (name.isEmpty()) return
         val item = ShoppingListItem(
             null,
-            edItem?.text.toString(),
+            name,
             "",
             false,
             shopListName?.id!!,
@@ -129,7 +141,6 @@ class ShopListActivity : AppCompatActivity(),ShopListItemAdapter.ShopListListene
         )
         edItem?.setText("")
         mainViewModel.insertShoppingListItem(item)
-
     }
 
     private fun init() = with(form){
@@ -193,16 +204,9 @@ class ShopListActivity : AppCompatActivity(),ShopListItemAdapter.ShopListListene
     }
 
     override fun onClickLibraryItem(item: ShoppingListItem) {
-        val item = ShoppingListItem(
-            null,
-            item.name,
-            "",
-            false,
-            shopListName?.id!!,
-            0
-        )
-        edItem?.setText("")
-        mainViewModel.insertShoppingListItem(item)
+        addNewShopListItem(item.name)
     }
+
+
 
 }

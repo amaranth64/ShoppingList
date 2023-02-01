@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import ru.worklight64.shoppinglist.activities.MainApp
-import ru.worklight64.shoppinglist.activities.NewNoteActivity
 import ru.worklight64.shoppinglist.activities.ShopListActivity
 import ru.worklight64.shoppinglist.databinding.FragmentShoppingListNamesBinding
 import ru.worklight64.shoppinglist.db.MainViewModel
@@ -89,7 +88,7 @@ class ShoppingListNamesFragment : BaseFragment(), ShopListAdapter.ShopListListen
 
         NewListDialog.showDialog(activity as AppCompatActivity, object : NewListDialog.Listener{
             override fun onClick(newListName: String) {
-                mainViewModel.updateNShoppingListName(shopList.copy(name = newListName))
+                mainViewModel.updateShoppingListName(shopList.copy(name = newListName))
             }
         },shopList.name)
 
