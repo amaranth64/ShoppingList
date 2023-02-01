@@ -12,6 +12,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.coroutines.Delay
+import kotlinx.coroutines.delay
 import ru.worklight64.shoppinglist.R
 import ru.worklight64.shoppinglist.databinding.ActivityShopListBinding
 import ru.worklight64.shoppinglist.db.MainViewModel
@@ -58,7 +60,7 @@ class ShopListActivity : AppCompatActivity(),ShopListItemAdapter.ShopListListene
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
+                mainViewModel.getAllLibraryItems("%$p0%")
             }
 
             override fun afterTextChanged(p0: Editable?) {
@@ -95,6 +97,9 @@ class ShopListActivity : AppCompatActivity(),ShopListItemAdapter.ShopListListene
             override fun onMenuItemActionExpand(p0: MenuItem): Boolean {
                 saveItemMenu.isVisible = true
                 edItem?.addTextChangedListener(txtWatcher)
+                mainViewModel.getAllLibraryItems("%%")
+                libraryObserver()
+                mainViewModel.getAllShoppingListItems(shopListName?.id!!).removeObservers(this@ShopListActivity)
                 return true
             }
 
@@ -102,6 +107,10 @@ class ShopListActivity : AppCompatActivity(),ShopListItemAdapter.ShopListListene
                 saveItemMenu.isVisible = false
                 invalidateOptionsMenu()
                 edItem?.removeTextChangedListener(txtWatcher)
+                itemsObserver()
+                mainViewModel.libraryItems.removeObservers(this@ShopListActivity)
+                mainViewModel.libraryItems
+                edItem?.setText("")
                 return true
             }
 
@@ -140,6 +149,21 @@ class ShopListActivity : AppCompatActivity(),ShopListItemAdapter.ShopListListene
         }
     }
 
+    private fun libraryObserver(){
+        mainViewModel.libraryItems.observe(this){
+            val tempItem = ArrayList<ShoppingListItem>()
+            it.forEach{item->
+                val i = ShoppingListItem(
+                    item.id,
+                    item.name,
+                    "",false,0,1
+                )
+                tempItem.add(i)
+            }
+            adapter?.submitList(tempItem)
+        }
+    }
+
     companion object{
         const val SHOP_LIST_KEY = "shop_list_key"
     }
@@ -156,6 +180,29 @@ class ShopListActivity : AppCompatActivity(),ShopListItemAdapter.ShopListListene
             }
 
         })
+    }
+
+    override fun onDeleteItem(item: ShoppingListItem) {
+        mainViewModel.deleteShoppingListItem(item.id!!)
+    }
+
+    override fun onDeleteLibraryItem(id: Int) {
+        mainViewModel.deleteLibraryItem(id)
+        Thread.sleep(100)
+        mainViewModel.getAllLibraryItems("%${edItem?.text.toString()}%")
+    }
+
+    override fun onClickLibraryItem(item: ShoppingListItem) {
+        val item = ShoppingListItem(
+            null,
+            item.name,
+            "",
+            false,
+            shopListName?.id!!,
+            0
+        )
+        edItem?.setText("")
+        mainViewModel.insertShoppingListItem(item)
     }
 
 }

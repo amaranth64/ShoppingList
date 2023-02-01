@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.ListAdapter
 
 import androidx.recyclerview.widget.RecyclerView
 import ru.worklight64.shoppinglist.R
+import ru.worklight64.shoppinglist.databinding.ShopLibraryListItemBinding
 import ru.worklight64.shoppinglist.databinding.ShopListItemBinding
 import ru.worklight64.shoppinglist.entities.ShoppingListItem
 
@@ -30,21 +31,26 @@ class ShopListItemAdapter(private var listener: ShopListListener): ListAdapter<S
 
     class ItemHolder(val view:View):RecyclerView.ViewHolder(view){
 
-        fun setItemData(shopList: ShoppingListItem, listener: ShopListListener){
+        fun setItemData(shopListItem: ShoppingListItem, listener: ShopListListener){
             val itemForm = ShopListItemBinding.bind(view)
             itemForm.apply {
-                tvName.text = shopList.name
-                tvInfo.text = shopList.itemInfo
-                checkBox.isChecked = shopList.itemChecked
-                if (shopList.itemInfo.isEmpty()) tvInfo.visibility = View.GONE
+                tvName.text = shopListItem.name
+                tvInfo.text = shopListItem.itemInfo
+                checkBox.isChecked = shopListItem.itemChecked
+                if (shopListItem.itemInfo.isEmpty()) tvInfo.visibility = View.GONE
                 else tvInfo.visibility = View.VISIBLE
                 setPaintFlagAndColor(itemForm)
 
                 checkBox.setOnClickListener {
-                    listener.onCheckItem(shopList.copy(itemChecked = checkBox.isChecked))
+                    listener.onCheckItem(shopListItem.copy(itemChecked = checkBox.isChecked))
                 }
+
                 ibEdit.setOnClickListener {
-                    listener.onEditItem(shopList)
+                    listener.onEditItem(shopListItem)
+                }
+
+                ibDelete.setOnClickListener {
+                    listener.onDeleteItem(shopListItem)
                 }
             }
         }
@@ -65,8 +71,17 @@ class ShopListItemAdapter(private var listener: ShopListListener): ListAdapter<S
             }
         }
 
-        fun setLibraryData(shopList: ShoppingListItem, listener: ShopListListener){
-
+        fun setLibraryData(shopListItem: ShoppingListItem, listener: ShopListListener){
+            val itemForm = ShopLibraryListItemBinding.bind(view)
+            itemForm.apply {
+                tvName.text = shopListItem.name
+                ibDelete.setOnClickListener {
+                    listener.onDeleteLibraryItem(shopListItem.id!!)
+                }
+            }
+            itemView.setOnClickListener {
+                listener.onClickLibraryItem(shopListItem)
+            }
         }
 
         companion object{
@@ -97,6 +112,11 @@ class ShopListItemAdapter(private var listener: ShopListListener): ListAdapter<S
 
         fun onCheckItem(item: ShoppingListItem)
         fun onEditItem(item: ShoppingListItem)
+        fun onDeleteItem(item: ShoppingListItem)
+        fun onDeleteLibraryItem(id: Int)
+        fun onClickLibraryItem(item: ShoppingListItem)
+
+
 
     }
 

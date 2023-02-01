@@ -39,6 +39,8 @@ interface Dao {
     suspend fun insertShoppingListItem(item: ShoppingListItem)
     @Update
     suspend fun updateShoppingListItem(item: ShoppingListItem)
+    @Query("DELETE FROM shop_list_item WHERE id IS :id")
+    suspend fun deleteShoppingListItem(id: Int)
     @Query("DELETE FROM shop_list_item WHERE listId LIKE :linkId")
     suspend fun deleteShoppingListItems(linkId: Int)
 
@@ -47,5 +49,7 @@ interface Dao {
     suspend fun getAllLibraryItems(name: String): List<LibraryItem>
     @Insert
     suspend fun insertLibraryItem(item: LibraryItem)
+    @Query("DELETE FROM library WHERE id IS :id")
+    suspend fun deleteLibraryItem(id: Int)
 
 }

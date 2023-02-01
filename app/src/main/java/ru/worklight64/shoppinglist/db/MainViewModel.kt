@@ -50,11 +50,20 @@ class MainViewModel(database: MainDataBase): ViewModel() {
     fun updateShoppingListItem(item: ShoppingListItem) = viewModelScope.launch {
         dao.updateShoppingListItem(item)
     }
+    fun deleteShoppingListItem(id: Int) = viewModelScope.launch {
+        dao.deleteShoppingListItem(id)
+    }
     fun clearShoppingListItems(listId: Int) = viewModelScope.launch {
         dao.deleteShoppingListItems(listId)
     }
 
     //==============================================
+    val libraryItems = MutableLiveData<List<LibraryItem>>()
+
+    fun getAllLibraryItems(name: String) = viewModelScope.launch {
+        libraryItems.postValue(dao.getAllLibraryItems(name))
+    }
+
     private suspend fun isLibraryItemExist(name:String):Boolean{
         return dao.getAllLibraryItems(name).isNotEmpty()
     }
@@ -63,6 +72,9 @@ class MainViewModel(database: MainDataBase): ViewModel() {
         dao.insertLibraryItem(item)
     }
 
+    fun deleteLibraryItem(id: Int) = viewModelScope.launch {
+        dao.deleteLibraryItem(id)
+    }
     //==============================================
 
     class MainViewModelFactory(private val database: MainDataBase): ViewModelProvider.Factory{
