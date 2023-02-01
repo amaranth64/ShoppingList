@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
+import ru.worklight64.shoppinglist.entities.LibraryItem
 import ru.worklight64.shoppinglist.entities.NoteItem
 import ru.worklight64.shoppinglist.entities.ShoppingListItem
 import ru.worklight64.shoppinglist.entities.ShoppingListName
@@ -40,4 +41,11 @@ interface Dao {
     suspend fun updateShoppingListItem(item: ShoppingListItem)
     @Query("DELETE FROM shop_list_item WHERE listId LIKE :linkId")
     suspend fun deleteShoppingListItems(linkId: Int)
+
+    //===========================================
+    @Query("SELECT * FROM library WHERE name LIKE :name")
+    suspend fun getAllLibraryItems(name: String): List<LibraryItem>
+    @Insert
+    suspend fun insertLibraryItem(item: LibraryItem)
+
 }

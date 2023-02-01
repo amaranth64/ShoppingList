@@ -2,6 +2,7 @@ package ru.worklight64.shoppinglist.db
 
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
+import ru.worklight64.shoppinglist.entities.LibraryItem
 import ru.worklight64.shoppinglist.entities.NoteItem
 import ru.worklight64.shoppinglist.entities.ShoppingListItem
 import ru.worklight64.shoppinglist.entities.ShoppingListName
@@ -42,6 +43,9 @@ class MainViewModel(database: MainDataBase): ViewModel() {
 
     fun insertShoppingListItem(item: ShoppingListItem) = viewModelScope.launch {
         dao.insertShoppingListItem(item)
+        if (!isLibraryItemExist(item.name)){
+            insertLibraryItem(LibraryItem(null, item.name))
+        }
     }
     fun updateShoppingListItem(item: ShoppingListItem) = viewModelScope.launch {
         dao.updateShoppingListItem(item)
@@ -49,7 +53,18 @@ class MainViewModel(database: MainDataBase): ViewModel() {
     fun clearShoppingListItems(listId: Int) = viewModelScope.launch {
         dao.deleteShoppingListItems(listId)
     }
+
     //==============================================
+    private suspend fun isLibraryItemExist(name:String):Boolean{
+        return dao.getAllLibraryItems(name).isNotEmpty()
+    }
+
+    private fun insertLibraryItem(item: LibraryItem) = viewModelScope.launch {
+        dao.insertLibraryItem(item)
+    }
+
+    //==============================================
+
     class MainViewModelFactory(private val database: MainDataBase): ViewModelProvider.Factory{
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(MainViewModel::class.java)){
