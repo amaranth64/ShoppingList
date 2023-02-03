@@ -2,6 +2,7 @@ package ru.worklight64.shoppinglist.activities
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,8 +12,10 @@ import android.text.style.StyleSpan
 import android.view.*
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.EditText
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.preference.PreferenceManager
 import ru.worklight64.shoppinglist.R
 import ru.worklight64.shoppinglist.databinding.ActivityNewNoteBinding
 import ru.worklight64.shoppinglist.entities.NoteItem
@@ -26,6 +29,7 @@ import java.util.*
 class NewNoteActivity : AppCompatActivity() {
     private lateinit var form: ActivityNewNoteBinding
     private var note: NoteItem? = null
+    private var pref: SharedPreferences? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         form = ActivityNewNoteBinding.inflate(layoutInflater)
@@ -40,8 +44,14 @@ class NewNoteActivity : AppCompatActivity() {
     @SuppressLint("ClickableViewAccessibility")
     private fun  init(){
         form.colorPicker.setOnTouchListener(MyTouchListener())
+        pref = PreferenceManager.getDefaultSharedPreferences(this)
+        setTextSize()
     }
 
+    private fun setTextSize() = with(form){
+        edTitle.setTextSize(pref?.getString("title_size_key", "18"))
+        edDescription.setTextSize(pref?.getString("content_size_key", "16"))
+    }
 
     private fun onClickColorPicker() = with(form){
         ibBlack.setOnClickListener {
@@ -206,5 +216,9 @@ class NewNoteActivity : AppCompatActivity() {
 
         }
         form.edDescription.customSelectionActionModeCallback = actionCallback
+    }
+
+    private fun EditText.setTextSize(size: String?){
+        if (size != null) this.textSize = size.toFloat()
     }
 }

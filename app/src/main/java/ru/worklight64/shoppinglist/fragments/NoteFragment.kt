@@ -2,6 +2,7 @@ package ru.worklight64.shoppinglist.fragments
 
 import android.app.Activity
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +11,10 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 
 import androidx.fragment.app.activityViewModels
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import ru.worklight64.shoppinglist.R
 import ru.worklight64.shoppinglist.activities.MainApp
 import ru.worklight64.shoppinglist.activities.NewNoteActivity
 import ru.worklight64.shoppinglist.databinding.FragmentNoteBinding
@@ -23,6 +27,7 @@ class NoteFragment : BaseFragment(), NodeAdapter.NoteItemListener {
     private lateinit var fragForm: FragmentNoteBinding
     private lateinit var editLauncher: ActivityResultLauncher<Intent>
     private lateinit var adapter: NodeAdapter
+    private lateinit var pref: SharedPreferences
 
     private val mainViewModel: MainViewModel by activityViewModels{
         MainViewModel.MainViewModelFactory((context?.applicationContext as MainApp).database)
@@ -52,8 +57,11 @@ class NoteFragment : BaseFragment(), NodeAdapter.NoteItemListener {
         observer()
     }
     private fun initRcView() = with(fragForm){
-        rcViewNote.layoutManager = LinearLayoutManager(activity)
-        adapter = NodeAdapter(this@NoteFragment)
+        pref = PreferenceManager.getDefaultSharedPreferences(requireActivity())
+        val linear = getString(R.string.pref_linear)
+        if (pref.getString("note_style_key",linear) == linear) rcViewNote.layoutManager = LinearLayoutManager(activity)
+        else rcViewNote.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        adapter = NodeAdapter(this@NoteFragment, pref)
         rcViewNote.adapter = adapter
     }
 

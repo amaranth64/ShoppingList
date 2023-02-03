@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory android:title="@string/general">
 
         <ListPreference
-            android:defaultValue="1"
+            android:defaultValue="@string/pref_linear"
             android:entries="@array/note_style_array"
             android:entryValues="@array/note_style_values"
             android:key="note_style_key"
             android:icon="@drawable/ic_line_grid_b"
+            app:useSimpleSummaryProvider="true"
             android:title="@string/choose_note_style" />
         <ListPreference
-            android:defaultValue="1"
+            android:defaultValue="HH:mm:ss - dd/MM/yyyy"
             android:entries="@array/time_style_array"
             android:entryValues="@array/time_style_values"
-            android:key="time_format_key"
             android:icon="@drawable/ic_timer_format_b"
-            android:title="@string/choose_time_format" />
+            android:key="time_format_key"
+            android:title="@string/choose_time_format"
+            app:useSimpleSummaryProvider="true" />
         <Preference
 
             android:title="@string/remove_ads"
@@ -31,25 +34,28 @@
             android:entries="@array/choose_theme_array"
             android:entryValues="@array/choose_theme_values"
             android:key="theme_key"
+            app:useSimpleSummaryProvider="true"
             android:icon="@drawable/ic_theme_b"
             android:title="@string/choose_theme" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/text_settings">
         <ListPreference
-            android:defaultValue="1"
+            android:defaultValue="18"
             android:entries="@array/text_size_array"
             android:entryValues="@array/text_size_values"
-            android:key="title_size_key"
             android:icon="@drawable/ic_title_b"
-            android:title="@string/title_text_size" />
+            android:key="title_size_key"
+            android:title="@string/title_text_size"
+            app:useSimpleSummaryProvider="true" />
         <ListPreference
-            android:defaultValue="1"
+            android:defaultValue="14"
             android:entries="@array/text_size_array"
             android:entryValues="@array/text_size_values"
-            android:key="content_size_key"
             android:icon="@drawable/ic_content_b"
-            android:title="@string/content_text_size" />
+            android:key="content_size_key"
+            android:title="@string/content_text_size"
+            app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 
 </PreferenceScreen>

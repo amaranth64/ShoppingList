@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="note_style_array">
-        <item>Linear</item>
+        <item>@string/pref_linear</item>
         <item>Grid</item>
     </string-array>
     <string-array name="note_style_values">
-        <item>Linear</item>
+        <item>@string/pref_linear</item>
         <item>Grid</item>
     </string-array>
 

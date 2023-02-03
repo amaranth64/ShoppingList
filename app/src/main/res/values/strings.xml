@@ -48,4 +48,6 @@
     <string name="text_settings">Note text settings</string>
     <string name="title_text_size">Title text size</string>
     <string name="content_text_size">Content text size</string>
+
+    <string name="pref_linear">Linear</string>
 </resources>

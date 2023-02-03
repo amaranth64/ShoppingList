@@ -23,14 +23,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="ru.worklight64.shoppinglist.activities.NewNoteActivity"
             android:theme="@style/Theme.NoFullWindow"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-
-        <activity
-            android:name="ru.worklight64.shoppinglist.activities.ShopListActivity" />
+        <activity android:name="ru.worklight64.shoppinglist.activities.ShopListActivity" />
+        <activity android:name="ru.worklight64.shoppinglist.settings.SettingsActivity" />
     </application>
 
 </manifest>
