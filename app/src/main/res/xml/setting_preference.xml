@@ -2,7 +2,8 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory android:title="@string/general">
+    <PreferenceCategory
+        android:title="@string/general">
 
         <ListPreference
             android:defaultValue="@string/pref_linear"
@@ -30,7 +31,7 @@
 
     <PreferenceCategory android:title="@string/theme_settings">
         <ListPreference
-            android:defaultValue="1"
+            android:defaultValue="green"
             android:entries="@array/choose_theme_array"
             android:entryValues="@array/choose_theme_values"
             android:key="theme_key"

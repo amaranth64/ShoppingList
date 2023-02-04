@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import ru.worklight64.shoppinglist.R
 import ru.worklight64.shoppinglist.databinding.ActivityShopListBinding
@@ -28,11 +29,13 @@ class ShopListActivity : AppCompatActivity(),ShopListItemAdapter.ShopListListene
     private var adapter: ShopListItemAdapter? = null
     private lateinit var txtWatcher: TextWatcher
 
+
     private val mainViewModel: MainViewModel by viewModels{
         MainViewModel.MainViewModelFactory((applicationContext as MainApp).database)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(getSelectedTheme())
         super.onCreate(savedInstanceState)
         form = ActivityShopListBinding.inflate(layoutInflater)
         setContentView(form.root)
@@ -207,6 +210,14 @@ class ShopListActivity : AppCompatActivity(),ShopListItemAdapter.ShopListListene
         addNewShopListItem(item.name)
     }
 
-
+    private fun getSelectedTheme(): Int{
+        val defPref = PreferenceManager.getDefaultSharedPreferences(this)
+        val theme = defPref.getString("theme_key","green").toString()
+        return if (theme == "green") {
+            R.style.Theme_ShoppingListGreen
+        } else {
+            R.style.Theme_ShoppingListBlue
+        }
+    }
 
 }

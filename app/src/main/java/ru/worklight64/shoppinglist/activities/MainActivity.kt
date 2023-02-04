@@ -1,9 +1,11 @@
 package ru.worklight64.shoppinglist.activities
 
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.preference.PreferenceManager
 import ru.worklight64.shoppinglist.fragments.FragmentManager
 import ru.worklight64.shoppinglist.R
 import ru.worklight64.shoppinglist.databinding.ActivityMainBinding
@@ -13,9 +15,13 @@ import ru.worklight64.shoppinglist.settings.SettingsActivity
 
 class MainActivity : AppCompatActivity() {
     lateinit var form: ActivityMainBinding
+    lateinit var defPref: SharedPreferences
     private var currentMenuItemId = R.id.shop_list
-    override fun onCreate(savedInstanceState: Bundle?) {
+    private var currentTheme = ""
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        defPref = PreferenceManager.getDefaultSharedPreferences(this)
+        setTheme(getSelectedTheme())
         super.onCreate(savedInstanceState)
         form = ActivityMainBinding.inflate(layoutInflater)
         setContentView(form.root)
@@ -27,6 +33,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         form.bNav.selectedItemId = currentMenuItemId
+        if (currentTheme != defPref.getString("theme_key","green")) recreate()
     }
 
 
@@ -52,4 +59,16 @@ class MainActivity : AppCompatActivity() {
             true
         }
     }
+
+        private fun getSelectedTheme(): Int{
+            val theme = defPref.getString("theme_key","green").toString()
+            currentTheme = theme
+            return if (theme == "green") {
+                R.style.Theme_ShoppingListGreen
+            } else {
+                R.style.Theme_ShoppingListBlue
+            }
+        }
+
+
 }

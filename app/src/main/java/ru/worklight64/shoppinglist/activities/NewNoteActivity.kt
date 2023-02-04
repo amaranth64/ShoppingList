@@ -30,7 +30,9 @@ class NewNoteActivity : AppCompatActivity() {
     private lateinit var form: ActivityNewNoteBinding
     private var note: NoteItem? = null
     private var pref: SharedPreferences? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(getSelectedTheme())
         super.onCreate(savedInstanceState)
         form = ActivityNewNoteBinding.inflate(layoutInflater)
         setContentView(form.root)
@@ -220,5 +222,15 @@ class NewNoteActivity : AppCompatActivity() {
 
     private fun EditText.setTextSize(size: String?){
         if (size != null) this.textSize = size.toFloat()
+    }
+
+    private fun getSelectedTheme(): Int{
+        val def = PreferenceManager.getDefaultSharedPreferences(this)
+        val theme = def.getString("theme_key","green")
+        return if (theme == "green") {
+            R.style.Theme_NoFullWindowGreen
+        } else {
+            R.style.Theme_NoFullWindowBlue
+        }
     }
 }
