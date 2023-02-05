@@ -68,6 +68,7 @@ class NoteFragment : BaseFragment(), NodeAdapter.NoteItemListener {
     private fun observer(){
         mainViewModel.allNotes.observe(viewLifecycleOwner) {
             adapter.submitList(it)
+            if (it.isEmpty()) fragForm.tvEmpty.visibility = View.VISIBLE else fragForm.tvEmpty.visibility = View.GONE
         }
     }
 

@@ -32,8 +32,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        form.bNav.selectedItemId = currentMenuItemId
         if (currentTheme != defPref.getString("theme_key","green")) recreate()
+        form.bNav.selectedItemId = currentMenuItemId
     }
 
 

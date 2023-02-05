@@ -66,6 +66,7 @@ class ShoppingListNamesFragment : BaseFragment(), ShopListAdapter.ShopListListen
     private fun observer(){
         mainViewModel.allShoppingListNames.observe(viewLifecycleOwner) {
             adapter.submitList(it)
+            if (it.isEmpty()) fragForm.tvEmpty.visibility = View.VISIBLE else fragForm.tvEmpty.visibility = View.GONE
         }
     }
 

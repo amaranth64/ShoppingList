@@ -26,4 +26,7 @@
     <color name="pbar_75_100">#8BC34A</color>
     <color name="pbar_100">#38B402</color>
 
+    <color name="rcview_background_green">#DBFBCB</color>
+    <color name="rcview_background_blue">#B7CFFD</color>
+
 </resources>
